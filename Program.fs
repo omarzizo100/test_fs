@@ -19,35 +19,30 @@ type Form2() as this =
     let labelOutput = new Label()
     let pictureBoxIcon = new PictureBox()
 
-    // Create panel with label helper
+    
     let createPanelWithLabel text location size color =
         let panel = new Panel(Size = size, Location = location, BackColor = color)
         let label = new Label(Text = text, Font = new Font("Century Gothic", 12.0F), AutoSize = true, Location = Point(5, 16))
         panel.Controls.Add(label)
         panel
 
-    // Text Analysis Function
+
     let analyzeText (text: string) =
-        // First, split the text into paragraphs, and remove empty paragraphs.
+
         let paragraphs = text.Split([|'\n'; '\r'|], StringSplitOptions.RemoveEmptyEntries)
         
-        // Filter out empty lines from the text and then split into words.
         let words = 
             text.Split([|' '; '\n'; '\t'; '.'; ','; ';'; ':'; '!' ;' '|], StringSplitOptions.RemoveEmptyEntries)
             |> Array.filter (fun word -> not (String.IsNullOrWhiteSpace(word))) // Ensure that empty words are removed
 
-        // Split the text into sentences (using '.', '!', '?' as sentence delimiters).
         let sentences = text.Split([|'.'; '!'; '?'|], StringSplitOptions.RemoveEmptyEntries)
 
-        // Calculate word count, sentence count, and paragraph count.
         let wordCount = words.Length
         let sentenceCount = sentences.Length
         let paragraphCount = paragraphs.Length
 
-        // Calculate the average sentence length (words per sentence).
         let avgSentenceLength = if sentenceCount > 0 then wordCount / sentenceCount else 0
 
-        // Calculate word frequency.
         let wordFrequency =
             words
             |> Seq.map (fun word -> word.ToLowerInvariant())
@@ -71,7 +66,7 @@ type Form2() as this =
     let panel5 = createPanelWithLabel "" (Point(276, 264)) (Size(232, 90)) (ColorTranslator.FromHtml("#c3eafb"))
     let panel6 = createPanelWithLabel ""  (Point(533, 264)) (Size(355, 210)) (ColorTranslator.FromHtml("#dafada"))
 
-    // Constructor logic
+    
     do
         // Header
         panelHeader.BackColor <- ColorTranslator.FromHtml("#367CAF")
@@ -127,7 +122,7 @@ type Form2() as this =
         textBoxInput.Size <- Size(660, 137)
         textBoxInput.Location <- Point(20, 50)
 
-        // Add output panels
+        
         panelContent.Controls.AddRange([| panel1Label; panel2Label; panel3Label; panel5Label; panel6Label |])
         panelContent.Controls.AddRange([| panel1; panel2; panel3; panel5; panel6 |])
         panelContent.Controls.Add(labelInput)
@@ -140,7 +135,7 @@ type Form2() as this =
         pictureBoxIcon.SizeMode <- PictureBoxSizeMode.StretchImage
         panelContent.Controls.Add(pictureBoxIcon)
 
-        // Add panels to form
+        
         this.Controls.Add(panelContent)
         this.Controls.Add(panelSidebar)
         this.Controls.Add(panelHeader)
