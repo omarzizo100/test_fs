@@ -151,26 +151,30 @@ type Form2() as this =
         )
 
         buttonAnalyze.Click.Add(fun _ -> 
-            let text = textBoxInput.Text
-            let wordCount, sentenceCount, paragraphCount, avgSentenceLength, wordFrequency = analyzeText text
-
-            let updateLabel (panel: Panel) newText =
-                let label = panel.Controls.[0] :?> Label
-                label.Text <- newText
-
-            updateLabel panel1 $"    {avgSentenceLength}"
-            updateLabel panel2 $"    {paragraphCount}"
-            updateLabel panel3 $"    {wordCount}"
-            updateLabel panel5 $"    {sentenceCount}"
-
-            let frequentWordsText =
-                wordFrequency
-                |> List.truncate 5
-                |> List.map (fun (word, count) -> $"    {word}:   {count}")
-                |> String.concat "\n\n"
-
-            updateLabel panel6 $"{frequentWordsText}"
+          if String.IsNullOrWhiteSpace(textBoxInput.Text) then
+                ignore (System.Windows.Forms.MessageBox.Show("Please enter text or load a file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error))
+          else    
+              let text = textBoxInput.Text
+              let wordCount, sentenceCount, paragraphCount, avgSentenceLength, wordFrequency = analyzeText text
+            
+              let updateLabel (panel: Panel) newText =
+                  let label = panel.Controls.[0] :?> Label
+                  label.Text <- newText
+            
+              updateLabel panel1 $"    {avgSentenceLength}"
+              updateLabel panel2 $"    {paragraphCount}"
+              updateLabel panel3 $"    {wordCount}"
+              updateLabel panel5 $"    {sentenceCount}"
+            
+              let frequentWordsText =
+                  wordFrequency
+                  |> List.truncate 5
+                  |> List.map (fun (word, count) -> $"    {word}:   {count}")
+                  |> String.concat "\n\n"
+            
+              updateLabel panel6 $"{frequentWordsText}"
         )
+
 
         buttonClear.Click.Add(fun _ -> 
             textBoxInput.Clear()
