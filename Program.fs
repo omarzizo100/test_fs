@@ -33,7 +33,7 @@ type Form2() as this =
         
         let words = 
             text.Split([|' '; '\n'; '\t'; '.'; ','; ';'; ':'; '!' ;' '|], StringSplitOptions.RemoveEmptyEntries)
-            |> Array.filter (fun word -> not (String.IsNullOrWhiteSpace(word))) // Ensure that empty words are removed
+            |> Array.filter (fun word -> not (String.IsNullOrWhiteSpace(word))) 
 
         let sentences = text.Split([|'.'; '!'; '?'|], StringSplitOptions.RemoveEmptyEntries)
 
