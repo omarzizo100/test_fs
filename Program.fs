@@ -53,6 +53,29 @@ type Form2() as this =
 
         wordCount, sentenceCount, paragraphCount, avgSentenceLength, wordFrequency
 
+
+        buttonAnalyze.Click.Add(fun _ -> 
+    let text = textBoxInput.Text
+    let wordCount, sentenceCount, paragraphCount, avgSentenceLength, wordFrequency = analyzeText text
+
+    let updateLabel (panel: Panel) newText =
+        let label = panel.Controls.[0] :?> Label
+        label.Text <- newText
+
+    updateLabel panel1 $"    {avgSentenceLength}"
+    updateLabel panel2 $"    {paragraphCount}"
+    updateLabel panel3 $"    {wordCount}"
+    updateLabel panel5 $"    {sentenceCount}"
+
+    let frequentWordsText =
+        wordFrequency
+        |> List.truncate 5
+        |> List.map (fun (word, count) -> $"    {word}:   {count}")
+        |> String.concat "\n\n"
+
+    updateLabel panel6 $"{frequentWordsText}"
+)
+
     let panel1Label = new Label(Text = "Readability Score:", Font = new Font("Century Gothic", 12.0F), AutoSize = true, Location = Point(276, 357))
     let panel2Label = new Label(Text = "Paragraph Count:", Font = new Font("Century Gothic", 12.0F), AutoSize = true, Location = Point(25, 357))
     let panel3Label = new Label(Text = "Word Count:", Font = new Font("Century Gothic", 12.0F), AutoSize = true, Location = Point(25, 234))
